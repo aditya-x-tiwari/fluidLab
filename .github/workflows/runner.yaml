@@ -1,4 +1,4 @@
-name: Run Heat Lab Experiments
+name: Run Fluid Lab Experiments
 
 on:
   push:
