@@ -63,5 +63,5 @@ plt.legend()
 plt.tight_layout()
 
 print(f"GM at zero heel (trigonometric fit) = {GM_0:.4f} m")
-
-plt.show()
+plt.savefig("graph.png")
+plt.close()
