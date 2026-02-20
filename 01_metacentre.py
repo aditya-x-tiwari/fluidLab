@@ -8,7 +8,6 @@ import csv
 # -----------------------------
 # DATA FROM CSV
 # -----------------------------
-
 theta_deg = []
 GM = []
 
@@ -25,7 +24,7 @@ GM = np.array(GM)
 # Convert degrees to radians
 theta = np.deg2rad(theta_deg)
 
-------------
+# -----------------------------
 # TRIGONOMETRIC MODEL
 # GM = a + b*cos(theta)
 # -----------------------------
