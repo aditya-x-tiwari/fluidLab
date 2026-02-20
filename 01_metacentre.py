@@ -2,15 +2,30 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+import numpy as np
+import csv
 
 # -----------------------------
-# DATA
+# DATA FROM CSV
 # -----------------------------
-theta_deg = np.array([2, 3, 5, 7, 8])
-theta = np.deg2rad(theta_deg)   # radians
-GM = np.array([0.143, 0.191, 0.171, 0.163, 0.178])
 
-# -----------------------------
+theta_deg = []
+GM = []
+
+with open('input_data.csv', mode='r') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        theta_deg.append(float(row['theta_deg']))
+        GM.append(float(row['GM']))
+
+# Convert to numpy arrays
+theta_deg = np.array(theta_deg)
+GM = np.array(GM)
+
+# Convert degrees to radians
+theta = np.deg2rad(theta_deg)
+
+------------
 # TRIGONOMETRIC MODEL
 # GM = a + b*cos(theta)
 # -----------------------------
