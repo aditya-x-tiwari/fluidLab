@@ -1,3 +1,4 @@
+# Metacentric Height
 theta_deg,GM
 2,0.143
 3,0.191
@@ -5,10 +6,12 @@ theta_deg,GM
 7,0.163
 8,0.178
 
+# Reynolds Experiment 
 run,time_sec,volume_m3,hf_m,L_m,D_m,mu,rho
 1,15,14e-6,0.002,1,0.007,0.001,998
 2,15,30e-6,0.003,1,0.007,0.001,998
 
+# Calibration of V-Notch 
 run,H_m,h_m,time_sec,A_tank,theta_deg
 1,0.052,0.031,20,0.75,90
 2,0.056,0.033,20,0.75,90
@@ -17,9 +20,15 @@ run,H_m,h_m,time_sec,A_tank,theta_deg
 5,0.067,0.059,20,0.75,90
 6,0.072,0.071,20,0.75,90
 
+# Verification of Stokes Law
 run,diameter_m,time_sec,L_m,nu,rho,gamma_s,gamma_L
 1.1,0.0021167,43.53,1,9.441e-4,959.6,73575,9413.676
 1.2,0.0021167,42.75,1,9.441e-4,959.6,73575,9413.676
 1.3,0.0021167,42.59,1,9.441e-4,959.6,73575,9413.676
 2.1,0.003175,23.71,1,9.441e-4,959.6,73575,9413.676
 
+# Calibration of Orificemeter
+run,Qrota_LPM,H_mm,x_mm,time_sec,d1_m,d2_m,A_tank,rho,mu
+1,5,76,0.023,20,0.0122,0.0284,0.09,1000,0.00089
+2,6.5,124,0.031,20,0.0122,0.0284,0.09,1000,0.00089
+3,7.5,172,0.038,20,0.0122,0.0284,0.09,1000,0.00089
