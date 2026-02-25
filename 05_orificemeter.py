@@ -2,6 +2,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+d1_m = 
+d2_m = 
+A_tank = 
+rho = 
+mu =   
+
 def process_orifice(csv_file):
     df = pd.read_csv(csv_file)
 
