@@ -89,5 +89,5 @@ Developed as part of Mechanical Engineering coursework at Jadavpur University.
 1. Prepare experimental data in CSV format.
 2. Run the corresponding script:
    ```bash
-   python experiment_name.py
+   python {experiment_name}.py
    
