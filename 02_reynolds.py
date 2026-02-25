@@ -19,7 +19,7 @@ def process_pipe_flow(csv_file):
     df['Q'] = df['volume_m3'] / df['time_sec']
 
     # Hydraulic gradient i
-    df['i'] = df['hf_m'] / df['L_m']
+    df['i'] = df['hf_m'] / L_m
 
     # Velocity V
     df['V'] = df['Q'] / A_m2
