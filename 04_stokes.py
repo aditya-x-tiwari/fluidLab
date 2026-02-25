@@ -2,6 +2,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+L_m = 1
+nu = 9.441e-4
+rho = 959.6
+gamma_s = 73575
+gamma_L = 9413.676
+
 def process_stokes(csv_file):
     df = pd.read_csv(csv_file)
 
@@ -9,20 +15,20 @@ def process_stokes(csv_file):
     df['a'] = df['diameter_m'] / 2
 
     # Terminal velocity
-    df['U'] = df['L_m'] / df['time_sec']
+    df['U'] = L_m / df['time_sec']
 
     # Reynolds number
-    df['Re'] = (2 * df['U'] * df['a']) / df['nu']
+    df['Re'] = (2 * df['U'] * df['a']) / nu
 
     # Theoretical Cd (Stokes)
     df['Cd_theoretical'] = 24 / df['Re']
 
     # Experimental Cd
-    df['Cd_experimental'] = (8/3) * df['a'] * (df['gamma_s'] - df['gamma_L']) / \
-                            (df['rho'] * df['U']**2)
+    df['Cd_experimental'] = (8/3) * df['a'] * (gamma_s - gamma_L) / \
+                            (rho * df['U']**2)
 
     # Dynamic viscosity from Stokes formula
-    df['mu'] = (2 * df['a']**2 * (df['gamma_s'] - df['gamma_L'])) / (9 * df['U'])
+    df['mu'] = (2 * df['a']**2 * (gamma_s - gamma_L)) / (9 * df['U'])
 
     mean_mu = df['mu'].mean()
     print(f"Mean viscosity (Pa·s) = {mean_mu:.5f}")
