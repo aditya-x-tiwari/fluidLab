@@ -69,4 +69,4 @@ def process_v_notch(csv_file):
 
 # -----------------------------
 if __name__ == "__main__":
-    process_v_notch("vnotch_input.csv")
+    process_v_notch("input_data.csv")
