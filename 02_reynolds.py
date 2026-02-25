@@ -22,15 +22,17 @@ def process_pipe_flow(csv_file):
     df['i'] = df['hf_m'] / df['L_m']
 
     # Velocity V
-    df['V'] = df['Q'] / df['A']
+    df['V'] = df['Q'] / A_m2
 
     # Reynolds Number
-    df['Re'] = (df['rho'] * df['V'] * df['D_m']) / df['mu']
+    df['Re'] = (df['V'] * D_m) / nu
 
     # Friction factor
     g = 9.81
-    df['f'] = df['hf_m'] / ((df['L_m']/df['D_m']) * (df['V']**2 / (2*g)))
-
+    df['f'] = df['hf_m'] / ((L_m/D_m) * (df['V']**2 / (2*g)))
+    df['f_1'] = 64 / df['Re']
+    df['f_2'] = 0.01364 / (df['Re']**0.25)
+    
     # -------- PLOTS -------- #
 
     # 1️⃣ i vs Q (Ordinary Plot)
