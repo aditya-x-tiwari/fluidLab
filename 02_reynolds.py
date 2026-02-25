@@ -4,12 +4,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+D_m = 0.007 
+A_m2 = (np.pi / 4) * D_m**2
+L_m = 1
+rho = 998.0
+nu = 10e-7
+
+
 def process_pipe_flow(csv_file):
     # Load CSV
     df = pd.read_csv(csv_file)
-
-    # Cross-sectional area
-    df['A'] = (np.pi / 4) * df['D_m']**2
 
     # Discharge Q
     df['Q'] = df['volume_m3'] / df['time_sec']
