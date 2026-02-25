@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-d1_m = 
-d2_m = 
-A_tank = 
-rho = 
-mu =   
+d1_m = 0.0122
+d2_m = 0.0284
+A_tank = 0.09
+rho = 1000
+mu =   0.00089
 
 def process_orifice(csv_file):
     df = pd.read_csv(csv_file)
@@ -16,19 +16,19 @@ def process_orifice(csv_file):
     # Convert units
     df['Qrota'] = df['Qrota_LPM'] / 1000 / 60   # LPM → m3/s
     df['H'] = df['H_mm'] / 1000                 # mm → m
-    df['x'] = df['x_mm']                        # already in meters
+    df['x'] = df['x_mm'] / 1000                 # mm → m
 
     # Areas
-    df['a1'] = np.pi * df['d1_m']**2 / 4
-    df['a2'] = np.pi * df['d2_m']**2 / 4
+    a1 = np.pi * d1_m**2 / 4
+    a2 = np.pi * d2_m**2 / 4
 
     # Theoretical discharge
-    df['Qth'] = (df['a1'] * df['a2'] *
+    df['Qth'] = (a1 * a2 *
                 np.sqrt(2 * g * df['H'])) / \
-                np.sqrt(df['a2']**2 - df['a1']**2)
+                np.sqrt(a2**2 - a1**2)
 
     # Actual discharge
-    df['Qact'] = (df['A_tank'] * df['x']) / df['time_sec']
+    df['Qact'] = (A_tank * df['x']) / df['time_sec']
 
     # Cd (orifice)
     df['Cd_orifice'] = df['Qact'] / df['Qth']
@@ -37,10 +37,10 @@ def process_orifice(csv_file):
     df['Cd_rotameter'] = df['Qact'] / df['Qrota']
 
     # Velocity in pipe
-    df['V'] = df['Qact'] / df['a2']
+    df['V'] = df['Qact'] / a2
 
     # Reynolds number
-    df['Re'] = (df['rho'] * df['V'] * df['d2_m']) / df['mu']
+    df['Re'] = (rho * df['V'] * d2_m) / mu
 
     print("Mean Cd (Orifice) =", df['Cd_orifice'].mean())
     print("Mean Cd (Rotameter) =", df['Cd_rotameter'].mean())
