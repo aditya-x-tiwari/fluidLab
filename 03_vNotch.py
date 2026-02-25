@@ -3,22 +3,24 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+A_tank = 0.75
+theta_deg = 90
+
 def process_v_notch(csv_file):
     df = pd.read_csv(csv_file)
-
     g = 9.81
 
     # Convert theta to radians
-    df['theta_rad'] = np.deg2rad(df['theta_deg'])
+    theta_rad = np.deg2rad(theta_deg)
 
     # Volume collected
-    df['Volume'] = df['A_tank'] * df['h_m']
+    df['Volume'] = A_tank * df['h_m']
 
     # Actual discharge
     df['Q_actual'] = df['Volume'] / df['time_sec']
 
     # Theoretical constant K1
-    df['K1'] = (8/15) * np.tan(df['theta_rad']/2) * np.sqrt(2*g)
+    df['K1'] = (8/15) * np.tan(theta_rad/2) * np.sqrt(2*g)
 
     # H^(5/2)
     df['H_5_2'] = df['H_m']**(5/2)
