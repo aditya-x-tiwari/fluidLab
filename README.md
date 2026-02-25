@@ -1,6 +1,6 @@
 # fluidLab 🌀
 
-Computational toolkit for Fluid Mechanics Laboratory experiments.
+Computational toolkit for Fluid Mechanics Laboratory experiments under Mechanical Engineering Courses(specially Jadavpur University).
 
 This repository contains Python scripts developed to automate calculations, plotting, and data analysis for core undergraduate fluid mechanics lab experiments.
 
@@ -10,7 +10,15 @@ Developed as part of Mechanical Engineering coursework at Jadavpur University.
 
 ## 📌 Experiments Covered
 
-### 1️⃣ Characteristics of Pipe Flow
+### Determination of MetaCentric Height
+- Variation of metacentric height with sliding weights
+- Metacentre dependence on angle of heel 
+- Metacentric height calculation
+- Metacentre vs Angle of Heel plot 
+
+---
+
+### Characteristics of Pipe Flow
 - Reynolds number calculation
 - Friction factor determination
 - Laminar vs turbulent verification
@@ -21,7 +29,7 @@ Developed as part of Mechanical Engineering coursework at Jadavpur University.
 
 ---
 
-### 2️⃣ Calibration of V-Notch
+### Calibration of V-Notch
 - Theoretical discharge calculation
 - Actual discharge computation
 - Coefficient of discharge (Cd)
@@ -30,7 +38,7 @@ Developed as part of Mechanical Engineering coursework at Jadavpur University.
 
 ---
 
-### 3️⃣ Verification of Stokes’ Law
+### Verification of Stokes’ Law
 - Terminal velocity computation
 - Reynolds number calculation
 - Drag coefficient (experimental & theoretical)
@@ -40,7 +48,7 @@ Developed as part of Mechanical Engineering coursework at Jadavpur University.
 
 ---
 
-### 4️⃣ Calibration of Orifice / Venturimeter / Rotameter
+### Calibration of Orifice / Venturimeter / Rotameter
 - Theoretical discharge (Bernoulli-based)
 - Actual discharge from volumetric tank
 - Cd vs Re plots
@@ -82,3 +90,4 @@ Developed as part of Mechanical Engineering coursework at Jadavpur University.
 2. Run the corresponding script:
    ```bash
    python experiment_name.py
+   
