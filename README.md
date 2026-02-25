@@ -1,6 +1,6 @@
 # fluidLab 🌀
 
-Computational toolkit for Fluid Mechanics Laboratory experiments under Mechanical Engineering Courses(specially Jadavpur University).
+Computational toolkit for Fluid Mechanics Laboratory experiments.
 
 This repository contains Python scripts developed to automate calculations, plotting, and data analysis for core undergraduate fluid mechanics lab experiments.
 
