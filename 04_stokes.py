@@ -48,6 +48,21 @@ def process_stokes(csv_file):
                24/Re_range * (1 + 3/16*Re_range),
                '--', label="Oseen")
 
+    # Line of best fit for experimental data (log-log scale)
+    log_Re = np.log(df['Re'])
+    log_Cd = np.log(df['Cd_experimental'])
+    
+    # Fit a linear regression (log-log) for the experimental data
+    coeffs = np.polyfit(log_Re, log_Cd, 1)
+    fit_line = np.poly1d(coeffs)
+    
+    # Plot the best-fit line
+    plt.plot(df['Re'], np.exp(fit_line(np.log(df['Re']))), 'r--', label=f"Best Fit: Cd ~ Re^{coeffs[0]:.2f}")
+
+    # Add the equation to the plot
+    equation_text = f"Best Fit: Cd = {np.exp(coeffs[1]):.2e} * Re^{coeffs[0]:.2f}"
+    plt.text(0.1, 0.1, equation_text, transform=plt.gca().transAxes, fontsize=10, color='red', ha='left', va='bottom')
+
     plt.xlabel("Reynolds Number (Re)")
     plt.ylabel("Drag Coefficient (Cd)")
     plt.title("Cd vs Re (Log-Log)")
@@ -65,4 +80,4 @@ def process_stokes(csv_file):
 
 # -----------------------------
 if __name__ == "__main__":
-    process_stokes("input_data.csv")
+    process_stokes("input_data.csv")  # Change this to your file name
