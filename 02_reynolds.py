@@ -76,8 +76,8 @@ def process_pipe_flow(csv_file):
     plt.loglog(df['Re'], df['f'], 'o-', label="Experimental")
 
     # Split the Reynolds numbers into laminar and turbulent regions
-    Re_laminar = df[df['Re'] < 2000]
-    Re_turbulent = df[df['Re'] > 2000]
+    Re_laminar = df[df['Re'] < 2300]
+    Re_turbulent = df[df['Re'] > 4000]
 
     # Laminar line (f = 64/Re) for Re < 2000
     plt.loglog(Re_laminar['Re'], 64/Re_laminar['Re'], '--', label="Laminar (f = 64/Re)")
