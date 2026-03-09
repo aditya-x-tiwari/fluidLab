@@ -56,6 +56,14 @@ Developed as part of Mechanical Engineering coursework at Jadavpur University.
 
 ---
 
+### Velocity Distribution of Axi-Symmetric Jet 
+- Variation of velcity with radial distance
+- Pitot tube calibration
+- Variation of pressure
+- Axial Velocity Distribution
+
+---
+
 ## ⚙️ Features
 
 ✔ Automatic CSV-based data processing  
