@@ -15,13 +15,6 @@ def axisymmetric_jet_analysis(csv_file):
     V_5D = df['V_5D'].values
     V_10D = df['V_10D'].values
 
-    # -------- Sort data (VERY IMPORTANT) --------
-    sort_idx = np.argsort(r)
-    r = r[sort_idx]
-    V_D = V_D[sort_idx]
-    V_5D = V_5D[sort_idx]
-    V_10D = V_10D[sort_idx]
-
     # -------- Mirror for symmetry --------
     r_full = np.concatenate((-r[::-1], r))
 
@@ -32,10 +25,10 @@ def axisymmetric_jet_analysis(csv_file):
     V_5D_full = mirror(V_5D)
     V_10D_full = mirror(V_10D)
 
-    # -------- Smooth curve using polynomial fit --------
+    # -------- Smooth curve --------
     r_smooth = np.linspace(min(r_full), max(r_full), 300)
 
-    def smooth_fit(r, V, degree=4):  # 4 is enough, don't go crazy
+    def smooth_fit(r, V, degree=4):
         coeffs = np.polyfit(r, V, degree)
         return np.polyval(coeffs, r_smooth)
 
@@ -47,14 +40,14 @@ def axisymmetric_jet_analysis(csv_file):
     plt.figure()
 
     # Raw points
-    plt.scatter(r_full, V_D_full, label='z = D')
-    plt.scatter(r_full, V_5D_full, label='z = 5D')
-    plt.scatter(r_full, V_10D_full, label='z = 10D')
+    plt.scatter(r_full, V_D_full, color='blue', label='z = D')
+    plt.scatter(r_full, V_5D_full, color='orange', label='z = 5D')
+    plt.scatter(r_full, V_10D_full, color='green', label='z = 10D')
 
-    # Smooth best-fit curves
-    plt.plot(r_smooth, V_D_fit)
-    plt.plot(r_smooth, V_5D_fit)
-    plt.plot(r_smooth, V_10D_fit)
+    # Smooth curves (DIFFERENT COLORS!)
+    plt.plot(r_smooth, V_D_fit, color='blue', linewidth=2)
+    plt.plot(r_smooth, V_5D_fit, color='orange', linewidth=2)
+    plt.plot(r_smooth, V_10D_fit, color='green', linewidth=2)
 
     plt.xlabel("Radial Distance r (mm)")
     plt.ylabel("Axial Velocity (m/s)")
