@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import make_interp_spline
 
 
 def axisymmetric_jet_analysis(csv_file):
@@ -25,26 +26,31 @@ def axisymmetric_jet_analysis(csv_file):
     V_5D_full = mirror(V_5D)
     V_10D_full = mirror(V_10D)
 
-    # -------- Smooth curve --------
+    # -------- Smooth curves using spline --------
     r_smooth = np.linspace(min(r_full), max(r_full), 300)
 
-    def smooth_fit(r, V, degree=4):
-        coeffs = np.polyfit(r, V, degree)
-        return np.polyval(coeffs, r_smooth)
+    def smooth_curve(r, V):
+        # sort internally (required for spline)
+        idx = np.argsort(r)
+        r_sorted = r[idx]
+        V_sorted = V[idx]
 
-    V_D_fit = smooth_fit(r_full, V_D_full)
-    V_5D_fit = smooth_fit(r_full, V_5D_full)
-    V_10D_fit = smooth_fit(r_full, V_10D_full)
+        spline = make_interp_spline(r_sorted, V_sorted, k=3)
+        return spline(r_smooth)
+
+    V_D_fit = smooth_curve(r_full, V_D_full)
+    V_5D_fit = smooth_curve(r_full, V_5D_full)
+    V_10D_fit = smooth_curve(r_full, V_10D_full)
 
     # -------- Plot --------
     plt.figure()
 
-    # Raw points
+    # Raw data points
     plt.scatter(r_full, V_D_full, color='blue', label='z = D')
     plt.scatter(r_full, V_5D_full, color='orange', label='z = 5D')
     plt.scatter(r_full, V_10D_full, color='green', label='z = 10D')
 
-    # Smooth curves (DIFFERENT COLORS!)
+    # Smooth connected curves
     plt.plot(r_smooth, V_D_fit, color='blue', linewidth=2)
     plt.plot(r_smooth, V_5D_fit, color='orange', linewidth=2)
     plt.plot(r_smooth, V_10D_fit, color='green', linewidth=2)
