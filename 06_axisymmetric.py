@@ -26,14 +26,28 @@ def axisymmetric_jet_analysis(csv_file):
     V_5D_full = mirror(V_5D)
     V_10D_full = mirror(V_10D)
 
-    # -------- Smooth curves using spline --------
+    # -------- Smooth curves safely --------
     r_smooth = np.linspace(min(r_full), max(r_full), 300)
 
     def smooth_curve(r, V):
-        # sort internally (required for spline)
-        idx = np.argsort(r)
-        r_sorted = r[idx]
-        V_sorted = V[idx]
+
+        # Remove NaN/Inf
+        mask = np.isfinite(r) & np.isfinite(V)
+        r_clean = r[mask]
+        V_clean = V[mask]
+
+        # Remove duplicate r values
+        r_unique, indices = np.unique(r_clean, return_index=True)
+        V_unique = V_clean[indices]
+
+        # Sort
+        idx = np.argsort(r_unique)
+        r_sorted = r_unique[idx]
+        V_sorted = V_unique[idx]
+
+        # If too few points, skip
+        if len(r_sorted) < 4:
+            return None
 
         spline = make_interp_spline(r_sorted, V_sorted, k=3)
         return spline(r_smooth)
@@ -45,15 +59,20 @@ def axisymmetric_jet_analysis(csv_file):
     # -------- Plot --------
     plt.figure()
 
-    # Raw data points
+    # Raw data
     plt.scatter(r_full, V_D_full, color='blue', label='z = D')
     plt.scatter(r_full, V_5D_full, color='orange', label='z = 5D')
     plt.scatter(r_full, V_10D_full, color='green', label='z = 10D')
 
-    # Smooth connected curves
-    plt.plot(r_smooth, V_D_fit, color='blue', linewidth=2)
-    plt.plot(r_smooth, V_5D_fit, color='orange', linewidth=2)
-    plt.plot(r_smooth, V_10D_fit, color='green', linewidth=2)
+    # Smooth curves
+    if V_D_fit is not None:
+        plt.plot(r_smooth, V_D_fit, color='blue', linewidth=2)
+
+    if V_5D_fit is not None:
+        plt.plot(r_smooth, V_5D_fit, color='orange', linewidth=2)
+
+    if V_10D_fit is not None:
+        plt.plot(r_smooth, V_10D_fit, color='green', linewidth=2)
 
     plt.xlabel("Radial Distance r (mm)")
     plt.ylabel("Axial Velocity (m/s)")
