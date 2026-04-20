@@ -7,16 +7,22 @@ def axisymmetric_jet_analysis(csv_file):
 
     # Load CSV
     df = pd.read_csv(csv_file)
-    df.columns = df.columns.str.strip()  # clean headers
+    df.columns = df.columns.str.strip()
 
     # Extract columns
     r = df['r_mm'].values
-
     V_D = df['V_D'].values
     V_5D = df['V_5D'].values
     V_10D = df['V_10D'].values
 
-    # -------- Create symmetric radial data --------
+    # -------- Sort data (VERY IMPORTANT) --------
+    sort_idx = np.argsort(r)
+    r = r[sort_idx]
+    V_D = V_D[sort_idx]
+    V_5D = V_5D[sort_idx]
+    V_10D = V_10D[sort_idx]
+
+    # -------- Mirror for symmetry --------
     r_full = np.concatenate((-r[::-1], r))
 
     def mirror(V):
@@ -26,29 +32,29 @@ def axisymmetric_jet_analysis(csv_file):
     V_5D_full = mirror(V_5D)
     V_10D_full = mirror(V_10D)
 
-    # -------- Mean velocity curve --------
-    V_mean = (V_D_full + V_5D_full + V_10D_full) / 3
+    # -------- Smooth curve using polynomial fit --------
+    r_smooth = np.linspace(min(r_full), max(r_full), 300)
 
-    # -------- Gaussian fit (realistic profile) --------
-    # V = V0 * exp(- (r^2 / a^2))
-    coeffs = np.polyfit(r_full**2, np.log(np.abs(V_mean)+1e-6), 1)
-    a = -1 / coeffs[0]
+    def smooth_fit(r, V, degree=4):  # 4 is enough, don't go crazy
+        coeffs = np.polyfit(r, V, degree)
+        return np.polyval(coeffs, r_smooth)
 
-    r_smooth = np.linspace(min(r_full), max(r_full), 200)
-    V_fit = np.exp(coeffs[1]) * np.exp(coeffs[0] * r_smooth**2)
+    V_D_fit = smooth_fit(r_full, V_D_full)
+    V_5D_fit = smooth_fit(r_full, V_5D_full)
+    V_10D_fit = smooth_fit(r_full, V_10D_full)
 
     # -------- Plot --------
     plt.figure()
 
-    plt.plot(r_full, V_D_full, 'o', label='z = D')
-    plt.plot(r_full, V_5D_full, 's', label='z = 5D')
-    plt.plot(r_full, V_10D_full, '^', label='z = 10D')
+    # Raw points
+    plt.scatter(r_full, V_D_full, label='z = D')
+    plt.scatter(r_full, V_5D_full, label='z = 5D')
+    plt.scatter(r_full, V_10D_full, label='z = 10D')
 
-    # Mean curve
-    plt.plot(r_full, V_mean, 'k--', linewidth=2, label='Mean Profile')
-
-    # Smooth Gaussian fit
-    plt.plot(r_smooth, V_fit, 'r-', linewidth=2, label='Gaussian Fit')
+    # Smooth best-fit curves
+    plt.plot(r_smooth, V_D_fit)
+    plt.plot(r_smooth, V_5D_fit)
+    plt.plot(r_smooth, V_10D_fit)
 
     plt.xlabel("Radial Distance r (mm)")
     plt.ylabel("Axial Velocity (m/s)")
@@ -59,14 +65,6 @@ def axisymmetric_jet_analysis(csv_file):
 
     plt.savefig("axisymmetric_jet_velocity_profile.png")
     plt.show()
-
-    # -------- Centerline Velocity --------
-    centerline = df.iloc[0]
-
-    print("\nCenterline Velocities:")
-    print("At z = D   :", centerline['V_D'], "m/s")
-    print("At z = 5D  :", centerline['V_5D'], "m/s")
-    print("At z = 10D :", centerline['V_10D'], "m/s")
 
 
 if __name__ == "__main__":
