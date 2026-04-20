@@ -41,4 +41,4 @@ def axisymmetric_jet_analysis(csv_file):
 
 
 if __name__ == "__main__":
-    axisymmetric_jet_analysis("jet_data.csv")
+    axisymmetric_jet_analysis("input_data.csv")
